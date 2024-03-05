@@ -21,6 +21,64 @@ app.get('/stations', async (req, res) => {
   }
 });
 
+const xmlUrl = 'http://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML';
+
+let stationParser = null;
+
+// Pre-fetch and parse the station data at server startup
+fetchAndParseXML(xmlUrl).then(parsedData => {
+    stationParser = new StationParser(parsedData);
+}).catch(console.error);
+
+app.get('/stations/by-name/:name', async (req, res) => {
+  if (!stationParser) {
+      return res.status(503).send('Station data is not ready yet');
+  }
+
+  const { name } = req.params;
+  const station = stationParser.findStationByName(name);
+  res.json(station || {});
+});
+
+app.get('/stations/by-latitude/:minLatitude', (req, res) => {
+  if (!stationParser) {
+      return res.status(503).send('Station data is not ready yet');
+  }
+
+  const { minLatitude } = req.params;
+  const stations = stationParser.filterStationsByLatitude(parseFloat(minLatitude));
+  res.json(stations);
+});
+
+app.get('/stations/with-ids/:id', (req, res) => {
+  if (!stationParser) {
+      return res.status(503).send('Station data is not ready yet');
+  }
+
+  const stationsWithIds = stationParser.listStationsWithIDs();
+  res.json(stationsWithIds);
+});
+
+app.get('/stations/by-latitude-range', (req, res) => {
+  if (!stationParser) {
+      return res.status(503).send('Station data is not ready yet');
+  }
+
+  const { minLatitude, maxLatitude } = req.query;
+  const stations = stationParser.findStationsWithinLatitudeRange(parseFloat(minLatitude), parseFloat(maxLatitude));
+  res.json(stations);
+});
+
+app.get('/stations/by-proximity', (req, res) => {
+  if (!stationParser) {
+      return res.status(503).send('Station data is not ready yet');
+  }
+
+  const { latitude, longitude, maxDistanceKm } = req.query;
+  const stations = stationParser.filterStationsByProximity(parseFloat(latitude), parseFloat(longitude), parseFloat(maxDistanceKm));
+  res.json(stations);
+});
+
 app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
