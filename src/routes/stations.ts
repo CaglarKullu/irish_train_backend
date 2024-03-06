@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import * as irishRailApiService from '../services/irishRailApiService';
+import * as irishRailApiService from '../services/irishRailApiService.js';
 
 const router = express.Router();
 

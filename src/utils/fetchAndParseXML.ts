@@ -4,20 +4,20 @@ import { parseStringPromise } from 'xml2js';
 // Define an interface for the function's return type if you know the structure of the XML data
 // For example, if your XML data is converting to a specific JSON format, you can define that structure here
 // This is a basic and very generic example; you should replace it with your actual data structure
-interface ObjStation {
+export interface ObjStation {
     StationDesc: string;
     StationAlias?: string; // Optional since some tags are empty
-    StationLatitude: number;
-    StationLongitude: number;
+    StationLatitude: string;
+    StationLongitude: string;
     StationCode: string;
-    StationId: number;
+    StationId: string;
   }
   
   interface ArrayOfObjStation {
     objStation: ObjStation[];
   }
 
-  async function fetchAndParseXML(url: string): Promise<any> {
+  async function fetchAndParseXML(url: string): Promise<ArrayOfObjStation> {
     try {
       const response = await axios.get(url, { responseType: 'text' });
       const xmlData = response.data;
@@ -41,4 +41,4 @@ interface ObjStation {
     return tagName.split(':').pop() || tagName;
   }
   
-  export { fetchAndParseXML };
+  export { fetchAndParseXML, ArrayOfObjStation };
