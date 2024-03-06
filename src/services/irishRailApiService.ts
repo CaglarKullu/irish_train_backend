@@ -3,14 +3,7 @@ import {fetchAndParseXML, ArrayOfObjStation, ObjStation} from '../utils/fetchAnd
 
 const API_BASE_URL = 'http://api.irishrail.ie/realtime/realtime.asmx';
 
-export interface Station   {
-  StationDesc: string;
-  StationAlias?: string;
-  StationLatitude: string; 
-  StationLongitude: string;
-  StationCode: string;
-  StationId: string;
-}
+
 
 /**
  * Retrieves all stations of the specified type or all stations if no type is provided.
@@ -41,7 +34,7 @@ export async function getStationDataByName(stationName: String, numMins = 90) {
  */
 export async function filterStationsByLatitude(minLatitude: number): Promise<any> {
   const stations = await getAllStations();
-  return stations.objStation.filter((station:Station) => parseFloat(station.StationLatitude) > minLatitude);
+  return stations.objStation.filter((station:ObjStation) => parseFloat(station.StationLatitude) > minLatitude);
 }
 
 /**
@@ -97,7 +90,7 @@ function deg2rad(deg: number): number {
  * @param {string} stationName - the name of the station to retrieve
  * @return {Promise<Station | undefined>} the station object if found, undefined otherwise
  */
-export async function getStationByName(stationName: string): Promise<Station | undefined> {
+export async function getStationByName(stationName: string): Promise<ObjStation | undefined> {
   const stations = await getAllStations();
   const station = stations.objStation.find((station: ObjStation) => station.StationDesc.toLowerCase() === stationName.toLowerCase());
   return station;
