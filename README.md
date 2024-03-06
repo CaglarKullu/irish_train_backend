@@ -19,4 +19,19 @@ This project is a backend service for fetching and parsing station data from the
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/irish_train_backend.git  ```
+   git clone https://github.com/yourusername/irish_train_backend.git 
+    ```
+    Next, install the project dependencies:
+    ```bash
+   cd irish_train_backend
+   npm install
+    ```
+
+  ###   Running the Application
+
+  
+2. Compile the TypeScript files to JavaScript:
+   ```bash
+   npx tsc
+
+    ```
