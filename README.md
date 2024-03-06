@@ -21,7 +21,7 @@ This project is a backend service for fetching and parsing station data from the
    ```bash
    git clone https://github.com/yourusername/irish_train_backend.git 
     ```
-    Next, install the project dependencies:
+   2. Next, install the project dependencies:
     ```bash
    cd irish_train_backend
    npm install
@@ -30,8 +30,14 @@ This project is a backend service for fetching and parsing station data from the
   ###   Running the Application
 
   
-2. Compile the TypeScript files to JavaScript:
+1. Compile the TypeScript files to JavaScript:
    ```bash
    npx tsc
+
+    ```
+2. Run the compiled application:
+
+    ```bash
+   npm start
 
     ```
